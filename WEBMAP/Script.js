@@ -165,21 +165,22 @@ require([
                 var BOTON = new Button({
                     label: "Seleccionar con Poligono",
                     onClick: initDrawTool,
+                    iconClass: "fondoamarillos",
                     
                 }, "progButtonNode");});
                 
             mapMain.on("load", function () {
                     var BOTON = new Button({
                         label: "Selecionar con Buffer",
-                        onClick: initDrawTool2
-                        
+                        onClick: initDrawTool2,
+                        iconClass: "fondoamarillos",
                     }, "progButtonNode2");});
 
              mapMain.on("load", function () {
                     var BOTON = new Button({
                         label: "Borrar Selección",
-                        onClick: limpiar
-                        
+                        onClick: limpiar,
+                        iconClass: "fondoamarillos",
                     }, "progButtonNode3");});
 
             // funcion para hacer un bufer/////
@@ -195,41 +196,34 @@ require([
                 tbDraw2.activate(Draw.POINT);
                 featureLayerPV.clearSelection();
                 mapMain.graphics.clear();
-                console.log("draw")
-                
+                    
             }
            
             // funcion doBuffer
             function doBuffer(evtObj) {
             //las variables son
             tbDraw2.deactivate();
-            console.log("doBuffer")
-            var geometry = evtObj.geometry
+                var geometry = evtObj.geometry
             var geomService = new GeometryService("https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");
             var bufferParams = new BufferParameters(); 
-            bufferParams.distances = [5];
+            bufferParams.distances = [8];
             bufferParams.unit = GeometryService.UNIT_KILOMETER;
             bufferParams.geometries = [geometry]
             bufferParams.outSpatialReference = mapMain.spatialReference
             // La funcion es 
             var buffer = geomService.buffer(bufferParams);
             geomService.on('buffer-complete', showBuffer );
-            console.log(buffer)
-
-            // las geomterias que cogera el buffer para pintarlo bufferedGeometries
+             // las geomterias que cogera el buffer para pintarlo bufferedGeometries
             }
             // La funcion showBuffer:
             function showBuffer(bufferedGeometries) {
-                console.log("showBuffer")
-                console.log(bufferedGeometries)
-                
+                                          
       
                 array.forEach(bufferedGeometries.geometries, function(geometry) {
                   var graphic = new Graphic(geometry, fillSymbol);
                   mapMain.graphics.add(graphic);
                   var geometria = bufferedGeometries.geometries[0]
-                  console.log(geometria)
-                  selectEV(geometria);
+                           selectEV(geometria);
                 
                 });
                 

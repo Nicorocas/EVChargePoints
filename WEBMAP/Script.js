@@ -1,18 +1,6 @@
 var mapMain,taskLocator;
 var TablaPuntos;
-function Mostrar(esto)
-{
-	vista=document.getElementById(esto).style.display;
-	if (vista=='none')
-		vista='block';
-	else
-		vista='none';
-
-	document.getElementById(esto).style.display = vista;
-	
-}
-
-// @formatter:off
+// Comienza el require, aqui añadimos todos los modulos tanto de esri como dijit y dojo que posterior mente utilizamos en la app
 require([
         "esri/map",
         "esri/layers/FeatureLayer",
@@ -80,7 +68,7 @@ require([
             // Parse DOM nodes decorated with the data-dojo-type attribute
             parser.parse();
 
-            // Create the map
+            // Crear el mapa con su pop up asociado
             mapMain = new Map("cpCenter", {
                 basemap: "dark-gray",
                 center: [2.19, 41.55],
@@ -88,17 +76,17 @@ require([
                 infoWindow: popup
             });
 
-            //selecion de los campos utiles
+            //selecion de los campos utiles de la feature layer que cargamos despues
             var CamposEV = ["OBJECTID", "Disponible", "TipoConector", "OperadorPromotor","EnFuncionamiento",];
 
 
-            //Creacion de simbologias
+            //Creacion de simbologias para el proyecto
             var fillSymbol = new FillSymbol(new SimpleLineSymbol(
                 SimpleLineSymbol.STYLE_SOLID,));
                 fillSymbol.setColor(new Color([255,255,0,0.5]))
             ///// CONFIGURACION DEL POP UP ANTES DE AÑADIR LA CAPA AL MAPA/////
             
-            var CamposEV = ["OBJECTID", "Disponible", "TipoConector", "OperadorPromotor","EnFuncionamiento",];
+            
             var symbolSelected = new SimpleMarkerSymbol({
                 "type": "esriSMS",
                 "style": "esriSMSSquare",
@@ -116,7 +104,7 @@ require([
             //Add the dark theme which is customized further in the <style> tag at the top of this page
             domClass.add(popup.domNode, "dark");
 
-           
+           // aqui viene el template lo que sera la base del popup, tanto el formato como el contenido
 
             var template = new PopupTemplate({
                 title: "Punto de Recarga para VE",
@@ -131,7 +119,7 @@ require([
                 }],
                 mediaInfos:[{ //define the bar chart
                 caption: "",
-                type:"linechart",
+                type:"barchart",
                 value:{
                     theme: "Dollar",
                     fields:["PotenciaConector","TipoVelocidad","NumeroPuestos"]
@@ -139,7 +127,7 @@ require([
                 }]
             });
 
-            // se añade la capa de residencias de catalunya
+            // se añade la capa de residencias de catalunya sin visibilidad para posibles estudios
             var featureLayerResidencias = new FeatureLayer ("https://services1.arcgis.com/nCKYwcSONQTkPA4K/ArcGIS/rest/services/ResidenciasCatalu%c3%b1a/FeatureServer/0",)
             featureLayerResidencias.setVisibility(false)
             mapMain.addLayer(featureLayerResidencias)
@@ -274,15 +262,7 @@ require([
             }
             // funcion para añadir los graficos
             function addGraphic(evt) {
-                //deactivate the toolbar and clear existing graphics 
-                // tbDraw.deactivate(); 
-                // mapMain.enableMapNavigation();
-                
-                // figure out which symbol to use
-                
-                
-                mapMain.graphics.clear();
-               
+               mapMain.graphics.clear();
                var nuevoGraphic = new Graphic(evt.geometry,fillSymbol);
                var geometria = evt.geometry
                tbDraw.deactivate();
@@ -294,7 +274,7 @@ require([
               //funcion para seleccionar los elementos de featureLayer
               function selectEV(geometria) {
 
-                // Define symbol for selected features (using JSON syntax for improved readability!)
+                // Define symbol for selected features (using JSON syntax for improved readability!) este formato json es compatible con
                 var symbolSelected = new SimpleMarkerSymbol({
                     "type": "esriSMS",
                     "style": "esriSMSSquare",
@@ -315,9 +295,8 @@ require([
 
                 featureLayerPV.on("selection-complete", GenerarTabla);
 
-                /*
-                 * Step: Perform the selection
-                 */
+                //Realizar seleccion
+                
 
                 featureLayerPV.selectFeatures(queryQuakes, FeatureLayer.SELECTION_NEW);
             }

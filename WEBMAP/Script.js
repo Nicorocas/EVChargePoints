@@ -163,11 +163,11 @@ require([
                     OperadorPromotor:"Operador/Promotor",
                 }
             }, "divGrid");
-            /// widget de Medir distancias
-            var measurement = new Measurement({
-                map: mapMain
-              }, dom.byId("measurementDiv"));
-              measurement.startup();
+            // /// widget de Medir distancias
+            // var measurement = new Measurement({
+            //     map: mapMain
+            //   }, dom.byId("measurementDiv"));
+            //   measurement.startup();
             
             
             
@@ -204,7 +204,7 @@ require([
                 tbDraw2 = new Draw(mapMain);
                 tbDraw2.on("draw-complete", doBuffer); 
                 
-                tbDraw2.activate(Draw.POLYLINE);
+                tbDraw2.activate(Draw.POINT);
                 featureLayerPV.clearSelection();
                 mapMain.graphics.clear();
                 console.log("draw")
@@ -214,6 +214,7 @@ require([
             // funcion doBuffer
             function doBuffer(evtObj) {
             //las variables son
+            tbDraw2.deactivate();
             console.log("doBuffer")
             var geometry = evtObj.geometry
             var geomService = new GeometryService("https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");

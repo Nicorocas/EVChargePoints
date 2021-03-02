@@ -28,6 +28,7 @@ require([
 
         "esri/symbols/FillSymbol",
         "esri/symbols/SimpleLineSymbol",
+        "esri/symbols/SimpleFillSymbol",
 
         "esri/symbols/SimpleMarkerSymbol",
         "esri/symbols/TextSymbol",
@@ -50,21 +51,24 @@ require([
         "dijit/layout/ContentPane",
     
         "dojo/store/Memory",
-        "esri/dijit/analysis/CreateBuffers",
-        "esri/geometry/geometryEngine",
         "esri/dijit/Measurement",
+        
+        "esri/tasks/GeometryService",
+        "esri/tasks/BufferParameters",
         
     
     ],
     function (Map, FeatureLayer,Graphic, Locator,Query,
               Draw,Popup,PopupTemplate,domClass, domConstruct,
-              FillSymbol,SimpleLineSymbol,
+              FillSymbol,SimpleLineSymbol,SimpleFillSymbol,
               SimpleMarkerSymbol, TextSymbol, Font,
               Color, array,
               Grid,Selection,Button,
               dom, on, parser, ready,declare,
               BorderContainer, ContentPane,
-              Memory,CreateBuffers,geometryEngine,Measurement,) {
+              Memory,Measurement,
+              GeometryService,BufferParameters,
+              ) {
 // @formatter:on
 
         // Wait until DOM is ready *and* all outstanding require() calls have been resolved

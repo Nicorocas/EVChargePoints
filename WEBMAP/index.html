@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>WebMap</title>
+
+    <!-- Configure dojo for asynchronous module loading -->
+    <script>
+        var dojoConfig = {
+            async: true
+        };
+    </script>
+
+    
+    <link rel="stylesheet" href="http://js.arcgis.com/3.18/dijit/themes/nihilo/nihilo.css">
+    <link rel="stylesheet" href="http://js.arcgis.com/3.18/esri/css/esri.css">
+    <link rel="stylesheet" href="./style.css"/>
+    <script src="http://js.arcgis.com/3.18/"></script>
+    <script src="./Script.js"></script>
+</head>
+
+<body class="nihilo">
+<div id="bcMain" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline'">
+    <div id="cpHeader" align="left" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'">
+        <textarea id="taAddress" type="text">Barcelona</textarea>
+        <div>
+            <button id="btnLocate" data-dojo-type="dijit/form/Button">Locate</button>
+            
+        </div>
+        <div style="position:absolute; right:20px; top:10px; z-Index:999;"><button id="measurementDiv" type="button" ></button> </div>
+    </div>
+   
+    <div id="cpCenter" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
+        <button id="progButtonNode" type="button" ></button>
+        <button id="progButtonNode3" type="button" ></button>
+        <button id="progButtonNode2" type="button" ></button>
+       
+       
+        
+    </div>
+    <div id="cpBottom" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="splitter:'true', region:'bottom'">
+        <div id="divGrid" ></div>
+        <div id = "analysis-tool"></div>
+</div>
+</body>
+</html>

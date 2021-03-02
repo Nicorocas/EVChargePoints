@@ -175,21 +175,21 @@ require([
 
             mapMain.on("load", function () {
                 var BOTON = new Button({
-                    label: "Empezar a Dibujar",
+                    label: "Seleccionar con Poligono",
                     onClick: initDrawTool,
                     
                 }, "progButtonNode");});
                 
             mapMain.on("load", function () {
                     var BOTON = new Button({
-                        label: "Buffer",
+                        label: "Selecionar con Buffer",
                         onClick: initDrawTool2
                         
                     }, "progButtonNode2");});
 
              mapMain.on("load", function () {
                     var BOTON = new Button({
-                        label: "Borrar Selecc",
+                        label: "Borrar Selección",
                         onClick: limpiar
                         
                     }, "progButtonNode3");});
@@ -219,7 +219,7 @@ require([
             var geometry = evtObj.geometry
             var geomService = new GeometryService("https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");
             var bufferParams = new BufferParameters(); 
-            bufferParams.distances = [10];
+            bufferParams.distances = [5];
             bufferParams.unit = GeometryService.UNIT_KILOMETER;
             bufferParams.geometries = [geometry]
             bufferParams.outSpatialReference = mapMain.spatialReference

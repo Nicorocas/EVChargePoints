@@ -53,6 +53,7 @@ require([
         "esri/dijit/analysis/CreateBuffers",
         "esri/geometry/geometryEngine",
         "esri/dijit/Measurement",
+        
     
     ],
     function (Map, FeatureLayer,Graphic, Locator,Query,
@@ -171,14 +172,14 @@ require([
             mapMain.on("load", function () {
                 var BOTON = new Button({
                     label: "Empezar a Dibujar",
-                    onClick: (initDrawTool),
+                    onClick: initDrawTool,
                     
                 }, "progButtonNode");});
                 
             mapMain.on("load", function () {
                     var BOTON = new Button({
                         label: "Buffer",
-                        onClick: (HacerBufer),
+                        onClick: initDrawTool2
                         
                     }, "progButtonNode2");});
 
@@ -190,24 +191,71 @@ require([
                     }, "progButtonNode3");});
 
             // funcion para hacer un bufer/////
+            var tbDraw2;
+            // funcion para diubjar
+            function initDrawTool2() {
+                /*
+                 * Step: Implement the Draw toolbar
+                 */
+                tbDraw2 = new Draw(mapMain);
+                tbDraw2.on("draw-complete", doBuffer); 
+                
+                tbDraw2.activate(Draw.POLYLINE);
+                featureLayerPV.clearSelection();
+                mapMain.graphics.clear();
+                console.log("draw")
+                
+            }
+           
+            // funcion doBuffer
+            function doBuffer(evtObj) {
+            //las variables son
+            console.log("doBuffer")
+            var geometry = evtObj.geometry
+            var geomService = new GeometryService("https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer");
+            var bufferParams = new BufferParameters(); 
+            bufferParams.distances = [10];
+            bufferParams.unit = GeometryService.UNIT_KILOMETER;
+            bufferParams.geometries = [geometry]
+            bufferParams.outSpatialReference = mapMain.spatialReference
+            // La funcion es 
+            var buffer = geomService.buffer(bufferParams);
+            geomService.on('buffer-complete', showBuffer );
+            console.log(buffer)
+
+            // las geomterias que cogera el buffer para pintarlo bufferedGeometries
+            }
+            // La funcion showBuffer:
+            function showBuffer(bufferedGeometries) {
+                console.log("showBuffer")
+                console.log(bufferedGeometries)
+                var symbol = new SimpleFillSymbol(
+                  SimpleFillSymbol.STYLE_SOLID,
+                  new SimpleLineSymbol(
+                    SimpleLineSymbol.STYLE_SOLID,
+                    new Color([255,0,0,0.65]), 2
+                  ),
+                  new Color([255,0,0,0.35])
+                );
+      
+                array.forEach(bufferedGeometries.geometries, function(geometry) {
+                  var graphic = new Graphic(geometry, symbol);
+                  mapMain.graphics.add(graphic);
+                });
+                
+                
+              }
+              
+
+
+            /// funcion limpriar
             function limpiar() {
                 mapMain.graphics.clear();
                 featureLayerPV.clearSelection();
 
             }
-            
-            function HacerBufer() {
-                var createBuffers = new CreateBuffers({
-                    inputLayer:(selectEV),
-                    map: mapMain,
-                    distances: 1000,
-                    units: "meters",
-                    dissolveType: "Dissolve",
-                    portalUrl: "http://www.arcgis.com"
-                  },  "analysis-tool");
-                
-            }
-           
+        
+
             var tbDraw;
             // funcion para diubjar
             function initDrawTool() {

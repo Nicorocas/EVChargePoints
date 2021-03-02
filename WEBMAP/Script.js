@@ -97,7 +97,7 @@ require([
                 SimpleLineSymbol.STYLE_SOLID,));
                 fillSymbol.setColor(new Color([255,255,0,0.5]))
             ///// CONFIGURACION DEL POP UP ANTES DE AÑADIR LA CAPA AL MAPA/////
-             //and providing our own selection symbol for polygons.
+            
             var CamposEV = ["OBJECTID", "Disponible", "TipoConector", "OperadorPromotor","EnFuncionamiento",];
             var symbolSelected = new SimpleMarkerSymbol({
                 "type": "esriSMS",
@@ -234,19 +234,17 @@ require([
             function showBuffer(bufferedGeometries) {
                 console.log("showBuffer")
                 console.log(bufferedGeometries)
-                var symbol = new SimpleFillSymbol(
-                  SimpleFillSymbol.STYLE_SOLID,
-                  new SimpleLineSymbol(
-                    SimpleLineSymbol.STYLE_SOLID,
-                    new Color([255,0,0,0.65]), 2
-                  ),
-                  new Color([255,0,0,0.35])
-                );
+                
       
                 array.forEach(bufferedGeometries.geometries, function(geometry) {
-                  var graphic = new Graphic(geometry, symbol);
+                  var graphic = new Graphic(geometry, fillSymbol);
                   mapMain.graphics.add(graphic);
+                  var geometria = bufferedGeometries.geometries[0]
+                  console.log(geometria)
+                  selectEV(geometria);
+                
                 });
+                
                 
                 
               }
